@@ -4,14 +4,17 @@ import { Button, Input } from '../components/UI';
 import { ChevronLeft, Lock, Mail, AlertCircle } from 'lucide-react';
 
 export const LoginView = () => {
-  const { setUser, setView, showToast, instructores, proveedores } = useContext(AppContext);
+  const { setUser, setView, showToast, instructores, proveedores, admins } = useContext(AppContext);
   const [email, setEmail] = useState('');
   const [pwd, setPwd] = useState('');
 
   const handleLogin = (e) => {
     e.preventDefault();
-    if (email === 'admin@escuela.com' && pwd === '123456') { 
-        setUser({ role: 'admin', data: { nombre: 'Administrador' } }); 
+    
+    // Buscar administrador en la colección admins
+    const adminUser = (admins || []).find(a => a.email === email && a.password === pwd);
+    if (adminUser) { 
+        setUser({ role: 'admin', data: adminUser }); 
         setView('dashboard'); 
         showToast('Bienvenido Admin'); 
         return; 

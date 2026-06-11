@@ -115,6 +115,24 @@ export const AppProvider = ({ children }) => {
   const [motos, saveMoto] = useFirebaseCollection('motos', [{ id: '1', marca: 'Bera', modelo: 'SBR', cilindrada: '150cc', tipo: 'Sincrónica', proveedorId: '1', sedes: ['1', '2'], activa: true }, { id: '2', marca: 'Yamaha', modelo: 'BWS', cilindrada: '125cc', tipo: 'Automática', proveedorId: '1', sedes: ['1', '2'], activa: true }], fbUser, authReady);
   const [reservas, saveReserva] = useFirebaseCollection('reservas', [], fbUser, authReady);
   const [movimientos, saveMovimiento] = useFirebaseCollection('movimientos', [], fbUser, authReady);
+  const [admins, saveAdmin] = useFirebaseCollection('admins', [], fbUser, authReady);
+
+  // Inicializar admin predeterminado si la colección está vacía
+  useEffect(() => {
+    if (authReady && fbUser && admins.length === 0) {
+      const defaultAdmin = {
+        id: 'admin1',
+        nombre: 'Armando',
+        apellido: 'Salas',
+        cedula: '19497344',
+        telefono: '04127185256',
+        email: 'admin@escuela.com',
+        password: '123456',
+        rol: 'admin'
+      };
+      saveAdmin(defaultAdmin);
+    }
+  }, [authReady, fbUser, admins.length, saveAdmin]);
 
   const saveReservaSeguro = async (reserva) => {
     if (!db || !fbUser || !authReady) throw new Error('Firebase no disponible');
@@ -387,7 +405,7 @@ export const AppProvider = ({ children }) => {
 
   const contextValue = {
     config, saveConfig, sedes, saveSede, horarios, saveHorario, cursos, saveCurso, instructores, saveInstructor, handleSaveInstructorSeguro,
-    proveedores, saveProveedor, motos, saveMoto, reservas, saveReserva, movimientos, saveMovimiento,
+    proveedores, saveProveedor, motos, saveMoto, reservas, saveReserva, movimientos, saveMovimiento, admins, saveAdmin,
     view, setView, user, setUser, toast, showToast, autoLoginData, setAutoLoginData, calcularBaseUSD, asignarInstructorLogica,
     findAvailableResources, getTodayStr, isReservaActiva, refreshExchangeRates, rateFetchError, saveReservaSeguro, authReady,
     createScheduleLock, fetchActiveLocks, releaseScheduleLock, confirmReservaConLock

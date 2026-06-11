@@ -1,7 +1,8 @@
 import { useContext, useState } from 'react';
 import { AppContext } from '../context/AppContextValue';
 import { Button, Input, Select } from '../components/UI';
-import { ChevronLeft, Users, Briefcase, Plus, Award, Bike, Settings, Edit, Power, DollarSign, Activity, Check, CheckCircle, AlertCircle, BookOpen, MapPin, Clock, ChevronRight, Wallet } from 'lucide-react';
+import { ChevronLeft, Users, Briefcase, Plus, Award, Bike, Settings, Edit, Power, DollarSign, Activity, Check, CheckCircle, AlertCircle, BookOpen, MapPin, Clock, ChevronRight, Wallet, User } from 'lucide-react';
+import AdminPerfil from './AdminPerfil';
 
 const AdminResumen = ({ setTab }) => {
   const { reservas, instructores } = useContext(AppContext);
@@ -174,6 +175,7 @@ const AdminConfigHub = ({ setTab }) => (
   <div className="animate-in fade-in space-y-6">
     <h2 className="text-xl font-black text-gray-900 uppercase tracking-widest px-1">Configuración</h2>
     <div className="grid grid-cols-2 gap-3">
+      <button type="button" onClick={()=>setTab('perfil')} className="bg-white p-4 rounded-2xl shadow-sm border border-gray-100 flex flex-col items-center gap-2 hover:border-blue-300 transition-colors"><User size={28} className="text-blue-500" /> <span className="font-bold text-sm text-gray-800">Mi Perfil</span></button>
       <button type="button" onClick={()=>setTab('cursos')} className="bg-white p-4 rounded-2xl shadow-sm border border-gray-100 flex flex-col items-center gap-2 hover:border-blue-300 transition-colors"><BookOpen size={28} className="text-blue-500" /> <span className="font-bold text-sm text-gray-800">Cursos</span></button>
       <button type="button" onClick={()=>setTab('sedes')} className="bg-white p-4 rounded-2xl shadow-sm border border-gray-100 flex flex-col items-center gap-2 hover:border-blue-300 transition-colors"><MapPin size={28} className="text-blue-500" /> <span className="font-bold text-sm text-gray-800">Sedes</span></button>
       <button type="button" onClick={()=>setTab('horarios')} className="bg-white p-4 rounded-2xl shadow-sm border border-gray-100 flex flex-col items-center gap-2 hover:border-blue-300 transition-colors"><Clock size={28} className="text-blue-500" /> <span className="font-bold text-sm text-gray-800">Horarios</span></button>
@@ -467,6 +469,7 @@ export const DashboardView = () => {
         {tab === 'reservas' && <AdminReservas setTab={setTab} />}
         {tab === 'finanzas' && <AdminFinanzas />}
         {tab === 'config' && <AdminConfigHub setTab={setTab} />}
+        {tab === 'perfil' && <AdminPerfil setTab={setTab} />}
         {tab === 'ajustes' && <AdminAjustes setTab={setTab} />}
         {tab === 'motos' && <CRUDView titulo="Flota" items={motos} saveFn={saveMoto} formComponent={FormMoto} setTab={setTab} />}
         {tab === 'cursos' && <CRUDView titulo="Cursos" items={cursos} saveFn={saveCurso} formComponent={FormCursos} setTab={setTab} />}
